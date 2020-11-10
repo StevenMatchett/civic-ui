@@ -26,6 +26,10 @@ export const Map = (props) => {
   }, [])
 
   let resCars = cars.filter(car=>{
+      if (props.onlyYellow && car.color !== "Phoenix Yellow"){
+          return false;
+      }
+
       if (props.atDealer && props.atTransit) return true;
 
       if (props.atDealer){
@@ -34,6 +38,7 @@ export const Map = (props) => {
       if (props.atTransit){
         return car.atDealer !== true;
       }
+      
       return false;
   })
  
