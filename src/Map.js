@@ -1,5 +1,5 @@
 import React from 'react'
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker, MarkerClusterer } from '@react-google-maps/api';
 import { cars } from './cars';
 const containerStyle = {
   width: `${window.screen.width}px`,
@@ -13,19 +13,12 @@ const center = {
 
  
 export const Map = (props) => {
-  const [map, setMap] = React.useState(null)
- 
-  const onLoad = React.useCallback(function callback(map) {
-    const bounds = new window.google.maps.LatLngBounds();
-    map.fitBounds(bounds);
-    setMap(map)
-  }, [])
- 
-  const onUnmount = React.useCallback(function callback(map) {
-    setMap(null)
-  }, [])
-
+  let dedupe = {}
   let resCars = cars.filter(car=>{
+      if (dedupe[car.state+car.name]){
+          return false
+      }
+      dedupe[car.state+car.name] = true;
       if (props.onlyYellow && car.color !== "Phoenix Yellow"){
           return false;
       }
@@ -41,7 +34,11 @@ export const Map = (props) => {
       
       return false;
   })
- 
+  const options = {
+    imagePath:
+      'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m', // so you must have m1.png, m2.png, m3.png, m4.png, m5.png and m6.png in that folder
+  }
+  
   return (
     <LoadScript googleMapsApiKey="AIzaSyA4osQxlfnZEX-CUfopRAxP31PckDPX8vw">
       <GoogleMap
@@ -50,18 +47,20 @@ export const Map = (props) => {
         zoom={4}
        >
           
-        <>
-            {resCars.map((marker, i) =>{
-              return(
-                <Marker 
-                    position={marker.location}
-                    clickableIcons={true}
-                    onClick = {() => {props.setData(marker)}}
-                />
+        <MarkerClusterer options={options}>
+            {(clusterer)=>{
+                return resCars.map((marker, i) =>
+                (
+                    <Marker 
+                        clusterer={clusterer}
+                        position={marker.location}
+                        clickableIcons={true}
+                        onClick = {() => {props.setData(marker)}}
+                    />
 
-               )
-            })}
-        </>
+                ))}
+            }
+        </MarkerClusterer>
       </GoogleMap>
     </LoadScript>
   )
