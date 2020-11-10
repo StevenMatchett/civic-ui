@@ -7,8 +7,8 @@ const containerStyle = {
 };
 
 const center = {
-  lat: 39.0119,
-  lng: -98.4842
+  lat: 39,
+  lng: -98
 };
 
  
@@ -24,18 +24,29 @@ export const Map = (props) => {
   const onUnmount = React.useCallback(function callback(map) {
     setMap(null)
   }, [])
+
+  let resCars = cars.filter(car=>{
+      if (props.atDealer && props.atTransit) return true;
+
+      if (props.atDealer){
+          return car.atDealer === true;
+      }
+      if (props.atTransit){
+        return car.atDealer !== true;
+      }
+      return false;
+  })
  
   return (
     <LoadScript googleMapsApiKey="AIzaSyA4osQxlfnZEX-CUfopRAxP31PckDPX8vw">
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
-        zoom={7}
-        onLoad={onLoad}
-        onUnmount={onUnmount}>
+        zoom={4}
+       >
           
         <>
-            {cars.map((marker, i) =>{
+            {resCars.map((marker, i) =>{
               return(
                 <Marker 
                     position={marker.location}
