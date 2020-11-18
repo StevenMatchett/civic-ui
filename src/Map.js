@@ -34,6 +34,7 @@ export const Map = (props) => {
       
       return false;
   })
+  console.log(resCars.length)
   const options = {
     imagePath:
       'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m', // so you must have m1.png, m2.png, m3.png, m4.png, m5.png and m6.png in that folder
