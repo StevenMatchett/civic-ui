@@ -19,7 +19,8 @@
     "build": "NODE_ENV=production react-scripts build",
     "deploy": "yarn build && yarn gh-pages -d build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "update:cars": "node ../civicTypeRFinder/civic.js > src/cars.js && yarn deploy" 
   },
   "eslintConfig": {
     "extends": [
