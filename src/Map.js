@@ -15,6 +15,9 @@ const center = {
 export const Map = (props) => {
   let dedupe = {}
   let resCars = cars.filter(car=>{
+      if (props.color && !car.color.toLowerCase().includes(props.color.toLowerCase())){
+        return false;
+      }
       if (dedupe[car.state+car.name]){
           return false
       }
