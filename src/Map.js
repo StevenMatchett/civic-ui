@@ -64,7 +64,7 @@ export const Map = (props) => {
   }
   
   return (
-    <LoadScript googleMapsApiKey="AIzaSyBZeT2jllLVHqi5XucvxHul-O5WR-ZlDa0">
+    <LoadScript googleMapsApiKey="AIzaSyA4osQxlfnZEX-CUfopRAxP31PckDPX8vw">
       { resCars ? 
       <GoogleMap
         mapContainerStyle={containerStyle}
